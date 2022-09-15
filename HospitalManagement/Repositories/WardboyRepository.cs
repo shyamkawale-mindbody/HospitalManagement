@@ -1,6 +1,6 @@
 ﻿namespace HospitalManagement.Repositories
 {
-    public class BrotherRepository
+    public class WardboyRepository
     {
     }
 }

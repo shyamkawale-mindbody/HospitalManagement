@@ -11,22 +11,22 @@ using System.Threading.Tasks;
 
 namespace Application.Data.DataAccess
 {
-    public class NurseDataAccess: IDataAccess<Nurse, int>
+    public class WardDataAccess : IDataAccess<Ward, int>
     {
         SqlConnection Conn;
         SqlCommand Cmd;
-        public NurseDataAccess(IConfiguration configuration)
+        public WardDataAccess(IConfiguration configuration)
         {
             Conn = new SqlConnection(configuration.GetConnectionString("HospitalDatabase"));
         }
-        Nurse IDataAccess<Nurse, int>.Create(Nurse entity)
+        Ward IDataAccess<Ward, int>.Create(Ward entity)
         {
             try
             {
                 Conn.Open();
                 Cmd = Conn.CreateCommand();
                 Cmd.CommandType = CommandType.Text;
-                Cmd.CommandText = $"Insert into Nurse Values ({entity.NurseId}, '{entity.Name}', '{entity.Email}', {entity.MobileNo}, {entity.Fees})";
+                Cmd.CommandText = $"Insert into Ward Values ({entity.WardId}, '{entity.Name}')";
                 int result = Cmd.ExecuteNonQuery();
             }
             catch (SqlException ex)
@@ -44,20 +44,20 @@ namespace Application.Data.DataAccess
             return entity;
         }
 
-        Nurse IDataAccess<Nurse, int>.Delete(int id)
+        Ward IDataAccess<Ward, int>.Delete(int id)
         {
-            Nurse nurse = null;
+            Ward ward = null;
             try
             {
                 Conn.Open();
                 Cmd = Conn.CreateCommand();
                 Cmd.CommandType = CommandType.Text;
-                Cmd.CommandText = $"Delete From Nurse where NurseId={id}";
+                Cmd.CommandText = $"Delete From Ward where WardId={id}";
                 int result = Cmd.ExecuteNonQuery();
             }
             catch (SqlException ex)
             {
-                Console.WriteLine($"Error Occured while Processing Request {ex.Message}");
+                Console.WriteLine($"Error Occured while Processoing Request {ex.Message}");
             }
             catch (Exception ex)
             {
@@ -67,28 +67,25 @@ namespace Application.Data.DataAccess
             {
                 Conn.Close();
             }
-            return nurse;
+            return ward;
         }
 
-        IEnumerable<Nurse> IDataAccess<Nurse, int>.Get()
+        IEnumerable<Ward> IDataAccess<Ward, int>.Get()
         {
-            List<Nurse> nurseList = new List<Nurse>();
+            List<Ward> wardList = new List<Ward>();
             try
             {
                 Conn.Open();
                 Cmd = Conn.CreateCommand();
                 Cmd.CommandType = CommandType.Text;
-                Cmd.CommandText = "select * from Nurse";
+                Cmd.CommandText = "select * from Ward";
                 SqlDataReader reader = Cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    nurseList.Add(new Nurse()
+                    wardList.Add(new Ward()
                     {
-                        NurseId = Convert.ToInt32(reader["NurseId"]),
-                        Name = reader["Name"].ToString(),
-                        Email = reader["Email"].ToString(),
-                        MobileNo = Convert.ToInt32(reader["MobileNo"]),
-                        Fees = Convert.ToDecimal(reader["Fees"]),
+                        WardId = Convert.ToInt32(reader["WardId"]),
+                        Name = reader["Name"].ToString()
                     });
 
                 }
@@ -106,27 +103,24 @@ namespace Application.Data.DataAccess
             {
                 Conn.Close();
             }
-            return nurseList;
+            return wardList;
         }
 
-        Nurse IDataAccess<Nurse, int>.Get(int id)
+        Ward IDataAccess<Ward, int>.Get(int id)
         {
-            Nurse nurse = null;
+            Ward ward = null;
             try
             {
                 Conn.Open();
                 Cmd = Conn.CreateCommand();
-                Cmd.CommandText = $"Select NurseId, Name, Email, MobileNo, Fees from Nurse where NurseId = {id}";
+                Cmd.CommandText = $"Select WardId, Name from Ward where WardId = {id}";
                 SqlDataReader reader = Cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    nurse = new Nurse()
+                    ward = new Ward()
                     {
-                        NurseId = Convert.ToInt32(reader["NurseId"]),
+                        WardId = Convert.ToInt32(reader["WardId"]),
                         Name = reader["Name"].ToString(),
-                        Email = reader["Email"].ToString(),
-                        MobileNo = Convert.ToInt32(reader["MobileNo"]),
-                        Fees = Convert.ToDecimal(reader["Fees"]),
                     };
                 }
                 reader.Close();
@@ -143,17 +137,17 @@ namespace Application.Data.DataAccess
             {
                 Conn.Close();
             }
-            return nurse;
+            return ward;
         }
 
-        Nurse IDataAccess<Nurse, int>.Update(int id, Nurse entity)
+        Ward IDataAccess<Ward, int>.Update(int id, Ward entity)
         {
             try
             {
                 Conn.Open();
                 Cmd = Conn.CreateCommand();
                 Cmd.CommandType = CommandType.Text;
-                Cmd.CommandText = $"Update Nurse Set Name='{entity.Name}', Email='{entity.Email}',MobileNo={entity.MobileNo} Fees={entity.Fees} where NurseId={entity.NurseId}";
+                Cmd.CommandText = $"Update Ward Set Name='{entity.Name}' where WardId={entity.WardId}";
                 int result = Cmd.ExecuteNonQuery();
 
             }

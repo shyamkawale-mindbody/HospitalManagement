@@ -26,7 +26,7 @@ namespace Application.Data.DataAccess
                 Conn.Open();
                 Cmd = Conn.CreateCommand();
                 Cmd.CommandType = CommandType.Text;
-                Cmd.CommandText = $"Insert into Doctor Values ({entity.DoctorId}, '{entity.Name}', '{entity.Email}', {entity.MobileNo}, '{entity.Specialization}', {entity.Fees})";
+                Cmd.CommandText = $"Insert into Doctor Values ({entity.DoctorId}, '{entity.Name}', '{entity.Email}', {entity.MobileNo}, '{entity.Specialization}', {entity.Fees}, '{entity.Type}')";
                 int result = Cmd.ExecuteNonQuery();
             }
             catch (SqlException ex)
@@ -89,7 +89,8 @@ namespace Application.Data.DataAccess
                         Email = reader["Email"].ToString(),
                         MobileNo = Convert.ToInt32(reader["MobileNo"]),
                         Specialization = reader["Specialization"].ToString(),
-                        Fees = Convert.ToDecimal(reader["Fees"])
+                        Fees = Convert.ToDecimal(reader["Fees"]),
+                        Type = reader["Type"].ToString()
                     });
 
                 }
@@ -117,7 +118,7 @@ namespace Application.Data.DataAccess
             {
                 Conn.Open();
                 Cmd = Conn.CreateCommand();
-                Cmd.CommandText = $"Select DoctorId, Name, Email, MobileNo, Specialization, Fees from Doctor where DoctorId = {id}";
+                Cmd.CommandText = $"Select DoctorId, Name, Email, MobileNo, Specialization, Fees, Type from Doctor where DoctorId = {id}";
                 SqlDataReader reader = Cmd.ExecuteReader();
                 while (reader.Read())
                 {
@@ -128,7 +129,8 @@ namespace Application.Data.DataAccess
                         Email = reader["Email"].ToString(),
                         MobileNo = Convert.ToInt32(reader["MobileNo"]),
                         Specialization = reader["Specialization"].ToString(),
-                        Fees = Convert.ToDecimal(reader["Fees"])
+                        Fees = Convert.ToDecimal(reader["Fees"]),
+                        Type = reader["Type"].ToString()
                     };
                 }
                 reader.Close();
@@ -155,7 +157,7 @@ namespace Application.Data.DataAccess
                 Conn.Open();
                 Cmd = Conn.CreateCommand();
                 Cmd.CommandType = CommandType.Text;
-                Cmd.CommandText = $"Update Doctor Set Name='{entity.Name}', Email='{entity.Email}',MobileNo={entity.MobileNo}, Specialization={entity.Specialization}, Fees={entity.Fees} where DoctorId={entity.DoctorId}";
+                Cmd.CommandText = $"Update Doctor Set Name='{entity.Name}', Email='{entity.Email}',MobileNo={entity.MobileNo}, Specialization='{entity.Specialization}', Fees={entity.Fees}, Type='{entity.Type}' where DoctorId={entity.DoctorId}";
                 int result = Cmd.ExecuteNonQuery();
 
             }
