@@ -37,10 +37,9 @@ namespace Application.Entities
         public decimal? Other_Fees { get; set; }
         public decimal? MedicineCharges { get; set; }
         public decimal? CanteenCharges { get; set; }
-        public decimal? Total_Fees { 
-            get { return Total_Fees; } 
-            set { Total_Fees = OPD_Fees + Doctor_Fees + Other_Fees + MedicineCharges + CanteenCharges; } 
-        }
+        public decimal? Total_Fees { get; set; }
+        public decimal? RoomCharges { get; set; }
+        public decimal? IPD_Advance_Fees { get; set; }
     }
     public class Room: Entity
     {
@@ -71,22 +70,19 @@ namespace Application.Entities
         public int WardId { get; set; }
         public string Name { get; set; }
     }
-    /// <summary>
-    /// rem
-    /// </summary>
-    public class MedicineStore
+    public class MedicineStore: Entity
     {
         public int MedicineId { get; set; }
         public string Name { get; set; }
         public decimal Price { get; set; }
     }
-    public class Canteen
+    public class Canteen: Entity
     {
         public int FoodId { get; set; }
         public string Name { get; set; }
         public decimal Price { get; set; }  
     }
-    public class MedicineBill
+    public class MedicineBill: Entity
     {
         public int MedicineBillId { get; set; }
         public int BillId { get; set; }
@@ -94,7 +90,7 @@ namespace Application.Entities
         public int Quantity { get; set; }
         public decimal TotalPrice { get; set; }
     }
-    class CanteenBill
+    public class CanteenBill: Entity
     {
         public int CanteenBillId { get; set; }
         public int BillId { get; set; }

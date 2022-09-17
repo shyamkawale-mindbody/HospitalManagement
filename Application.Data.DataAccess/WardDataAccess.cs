@@ -147,7 +147,7 @@ namespace Application.Data.DataAccess
                 Conn.Open();
                 Cmd = Conn.CreateCommand();
                 Cmd.CommandType = CommandType.Text;
-                Cmd.CommandText = $"Update Ward Set Name='{entity.Name}' where WardId={entity.WardId}";
+                Cmd.CommandText = $"Update Ward Set Name='{entity.Name}' where WardId={id}";
                 int result = Cmd.ExecuteNonQuery();
 
             }

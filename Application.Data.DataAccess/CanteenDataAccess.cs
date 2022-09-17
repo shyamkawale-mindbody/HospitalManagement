@@ -3,30 +3,30 @@ using Application.Entities;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.SqlClient;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Application.Data.DataAccess
 {
-    public class DoctorDataAccess : IDataAccess<Doctor, int>
+    public class CanteenDataAccess : IDataAccess<Canteen, int>
     {
         SqlConnection Conn;
         SqlCommand Cmd;
-        public DoctorDataAccess(IConfiguration configuration)
+        public CanteenDataAccess(IConfiguration configuration)
         {
             Conn = new SqlConnection(configuration.GetConnectionString("HospitalDatabase"));
         }
-        Doctor IDataAccess<Doctor, int>.Create(Doctor entity)
+        Canteen IDataAccess<Canteen, int>.Create(Canteen entity)
         {
             try
             {
                 Conn.Open();
                 Cmd = Conn.CreateCommand();
                 Cmd.CommandType = CommandType.Text;
-                Cmd.CommandText = $"Insert into Doctor Values ({entity.DoctorId}, '{entity.Name}', '{entity.Email}', {entity.MobileNo}, '{entity.Specialization}', {entity.Fees}, '{entity.Type}')";
+                Cmd.CommandText = $"Insert into Canteen Values ({entity.FoodId}, '{entity.Name}', {entity.Price})";
                 int result = Cmd.ExecuteNonQuery();
             }
             catch (SqlException ex)
@@ -44,15 +44,15 @@ namespace Application.Data.DataAccess
             return entity;
         }
 
-        Doctor IDataAccess<Doctor, int>.Delete(int id)
+        Canteen IDataAccess<Canteen, int>.Delete(int id)
         {
-            Doctor doctor = null;
+            Canteen canteen = null;
             try
             {
                 Conn.Open();
                 Cmd = Conn.CreateCommand();
                 Cmd.CommandType = CommandType.Text;
-                Cmd.CommandText = $"Delete From Doctor where DoctorId={id}";
+                Cmd.CommandText = $"Delete From Canteen where FoodId={id}";
                 int result = Cmd.ExecuteNonQuery();
             }
             catch (SqlException ex)
@@ -67,30 +67,26 @@ namespace Application.Data.DataAccess
             {
                 Conn.Close();
             }
-            return doctor;
+            return canteen;
         }
 
-        IEnumerable<Doctor> IDataAccess<Doctor, int>.Get()
+        IEnumerable<Canteen> IDataAccess<Canteen, int>.Get()
         {
-            List<Doctor> doctorList = new List<Doctor>();
+            List<Canteen> canteenList = new List<Canteen>();
             try
             {
                 Conn.Open();
                 Cmd = Conn.CreateCommand();
                 Cmd.CommandType = CommandType.Text;
-                Cmd.CommandText = "select * from Doctor";
+                Cmd.CommandText = "select * from Canteen";
                 SqlDataReader reader = Cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    doctorList.Add(new Doctor()
+                    canteenList.Add(new Canteen()
                     {
-                        DoctorId = Convert.ToInt32(reader["DoctorId"]),
+                        FoodId = Convert.ToInt32(reader["FoodId"]),
                         Name = reader["Name"].ToString(),
-                        Email = reader["Email"].ToString(),
-                        MobileNo = Convert.ToInt32(reader["MobileNo"]),
-                        Specialization = reader["Specialization"].ToString(),
-                        Fees = Convert.ToDecimal(reader["Fees"]),
-                        Type = reader["Type"].ToString()
+                        Price = Convert.ToDecimal(reader["Price"])
                     });
 
                 }
@@ -108,29 +104,25 @@ namespace Application.Data.DataAccess
             {
                 Conn.Close();
             }
-            return doctorList;
+            return canteenList;
         }
 
-        Doctor IDataAccess<Doctor, int>.Get(int id)
+        Canteen IDataAccess<Canteen, int>.Get(int id)
         {
-            Doctor doctor = null;
+            Canteen canteen = null;
             try
             {
                 Conn.Open();
                 Cmd = Conn.CreateCommand();
-                Cmd.CommandText = $"Select DoctorId, Name, Email, MobileNo, Specialization, Fees, Type from Doctor where DoctorId = {id}";
+                Cmd.CommandText = $"Select FoodId, Name, Price from Canteen where FoodId = {id}";
                 SqlDataReader reader = Cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    doctor = new Doctor()
+                    canteen = new Canteen()
                     {
-                        DoctorId = Convert.ToInt32(reader["DoctorId"]),
+                        FoodId = Convert.ToInt32(reader["FoodId"]),
                         Name = reader["Name"].ToString(),
-                        Email = reader["Email"].ToString(),
-                        MobileNo = Convert.ToInt32(reader["MobileNo"]),
-                        Specialization = reader["Specialization"].ToString(),
-                        Fees = Convert.ToDecimal(reader["Fees"]),
-                        Type = reader["Type"].ToString()
+                        Price = Convert.ToDecimal(reader["Price"])
                     };
                 }
                 reader.Close();
@@ -147,19 +139,18 @@ namespace Application.Data.DataAccess
             {
                 Conn.Close();
             }
-            return doctor;
+            return canteen;
         }
 
-        Doctor IDataAccess<Doctor, int>.Update(int id, Doctor entity)
+        Canteen IDataAccess<Canteen, int>.Update(int id, Canteen entity)
         {
             try
             {
                 Conn.Open();
                 Cmd = Conn.CreateCommand();
                 Cmd.CommandType = CommandType.Text;
-                Cmd.CommandText = $"Update Doctor Set Name='{entity.Name}', Email='{entity.Email}',MobileNo={entity.MobileNo}, Specialization='{entity.Specialization}', Fees={entity.Fees}, Type='{entity.Type}' where DoctorId={id}";
+                Cmd.CommandText = $"Update Canteen Set Name='{entity.Name}', Price={entity.Price} where FoodId={id}";
                 int result = Cmd.ExecuteNonQuery();
-
             }
             catch (SqlException ex)
             {

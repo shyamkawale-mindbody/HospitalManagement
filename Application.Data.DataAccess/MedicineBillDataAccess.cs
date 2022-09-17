@@ -3,30 +3,30 @@ using Application.Entities;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.SqlClient;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Application.Data.DataAccess
 {
-    public class DoctorDataAccess : IDataAccess<Doctor, int>
+    public class MedicineBillDataAccess : IDataAccess<MedicineBill, int>
     {
         SqlConnection Conn;
         SqlCommand Cmd;
-        public DoctorDataAccess(IConfiguration configuration)
+        public MedicineBillDataAccess(IConfiguration configuration)
         {
             Conn = new SqlConnection(configuration.GetConnectionString("HospitalDatabase"));
         }
-        Doctor IDataAccess<Doctor, int>.Create(Doctor entity)
+        MedicineBill IDataAccess<MedicineBill, int>.Create(MedicineBill entity)
         {
             try
             {
                 Conn.Open();
                 Cmd = Conn.CreateCommand();
                 Cmd.CommandType = CommandType.Text;
-                Cmd.CommandText = $"Insert into Doctor Values ({entity.DoctorId}, '{entity.Name}', '{entity.Email}', {entity.MobileNo}, '{entity.Specialization}', {entity.Fees}, '{entity.Type}')";
+                Cmd.CommandText = $"Insert into MedicineBill Values ({entity.MedicineBillId}, {entity.BillId}, {entity.MedicineId}, {entity.Quantity}, {entity.TotalPrice})";
                 int result = Cmd.ExecuteNonQuery();
             }
             catch (SqlException ex)
@@ -44,15 +44,15 @@ namespace Application.Data.DataAccess
             return entity;
         }
 
-        Doctor IDataAccess<Doctor, int>.Delete(int id)
+        MedicineBill IDataAccess<MedicineBill, int>.Delete(int id)
         {
-            Doctor doctor = null;
+            MedicineBill medicineBill = null;
             try
             {
                 Conn.Open();
                 Cmd = Conn.CreateCommand();
                 Cmd.CommandType = CommandType.Text;
-                Cmd.CommandText = $"Delete From Doctor where DoctorId={id}";
+                Cmd.CommandText = $"Delete From MedicineBill where MedicineBillId={id}";
                 int result = Cmd.ExecuteNonQuery();
             }
             catch (SqlException ex)
@@ -67,30 +67,28 @@ namespace Application.Data.DataAccess
             {
                 Conn.Close();
             }
-            return doctor;
+            return medicineBill;
         }
 
-        IEnumerable<Doctor> IDataAccess<Doctor, int>.Get()
+        IEnumerable<MedicineBill> IDataAccess<MedicineBill, int>.Get()
         {
-            List<Doctor> doctorList = new List<Doctor>();
+            List<MedicineBill> medicineBillList = new List<MedicineBill>();
             try
             {
                 Conn.Open();
                 Cmd = Conn.CreateCommand();
                 Cmd.CommandType = CommandType.Text;
-                Cmd.CommandText = "select * from Doctor";
+                Cmd.CommandText = "select * from MedicineBill";
                 SqlDataReader reader = Cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    doctorList.Add(new Doctor()
+                    medicineBillList.Add(new MedicineBill()
                     {
-                        DoctorId = Convert.ToInt32(reader["DoctorId"]),
-                        Name = reader["Name"].ToString(),
-                        Email = reader["Email"].ToString(),
-                        MobileNo = Convert.ToInt32(reader["MobileNo"]),
-                        Specialization = reader["Specialization"].ToString(),
-                        Fees = Convert.ToDecimal(reader["Fees"]),
-                        Type = reader["Type"].ToString()
+                        MedicineBillId = Convert.ToInt32(reader["MedicineBillId"]),
+                        BillId = Convert.ToInt32(reader["BillId"]),
+                        MedicineId = Convert.ToInt32(reader["MedicineId"]),
+                        Quantity = Convert.ToInt32(reader["Quantity"]),
+                        TotalPrice = Convert.ToDecimal(reader["TotalPrice"])
                     });
 
                 }
@@ -108,29 +106,27 @@ namespace Application.Data.DataAccess
             {
                 Conn.Close();
             }
-            return doctorList;
+            return medicineBillList;
         }
 
-        Doctor IDataAccess<Doctor, int>.Get(int id)
+        MedicineBill IDataAccess<MedicineBill, int>.Get(int id)
         {
-            Doctor doctor = null;
+            MedicineBill medicineBill = null;
             try
             {
                 Conn.Open();
                 Cmd = Conn.CreateCommand();
-                Cmd.CommandText = $"Select DoctorId, Name, Email, MobileNo, Specialization, Fees, Type from Doctor where DoctorId = {id}";
+                Cmd.CommandText = $"Select MedicineBillId, BillId, MedicineId, Quantity, TotalPrice from MedicineBill where MedicineBillId = {id}";
                 SqlDataReader reader = Cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    doctor = new Doctor()
+                    medicineBill = new MedicineBill()
                     {
-                        DoctorId = Convert.ToInt32(reader["DoctorId"]),
-                        Name = reader["Name"].ToString(),
-                        Email = reader["Email"].ToString(),
-                        MobileNo = Convert.ToInt32(reader["MobileNo"]),
-                        Specialization = reader["Specialization"].ToString(),
-                        Fees = Convert.ToDecimal(reader["Fees"]),
-                        Type = reader["Type"].ToString()
+                        MedicineBillId = Convert.ToInt32(reader["MedicineBillId"]),
+                        BillId = Convert.ToInt32(reader["BillId"]),
+                        MedicineId = Convert.ToInt32(reader["MedicineId"]),
+                        Quantity = Convert.ToInt32(reader["Quantity"]),
+                        TotalPrice = Convert.ToDecimal(reader["TotalPrice"])
                     };
                 }
                 reader.Close();
@@ -147,17 +143,17 @@ namespace Application.Data.DataAccess
             {
                 Conn.Close();
             }
-            return doctor;
+            return medicineBill;
         }
 
-        Doctor IDataAccess<Doctor, int>.Update(int id, Doctor entity)
+        MedicineBill IDataAccess<MedicineBill, int>.Update(int id, MedicineBill entity)
         {
             try
             {
                 Conn.Open();
                 Cmd = Conn.CreateCommand();
                 Cmd.CommandType = CommandType.Text;
-                Cmd.CommandText = $"Update Doctor Set Name='{entity.Name}', Email='{entity.Email}',MobileNo={entity.MobileNo}, Specialization='{entity.Specialization}', Fees={entity.Fees}, Type='{entity.Type}' where DoctorId={id}";
+                Cmd.CommandText = $"Update MedicineBill Set BillId={entity.BillId}, MedicineId={entity.MedicineId}, Quantity={entity.Quantity}, TotalPrice={entity.TotalPrice}' where MedicineBillId={id}";
                 int result = Cmd.ExecuteNonQuery();
 
             }
