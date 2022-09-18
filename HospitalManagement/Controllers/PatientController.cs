@@ -89,5 +89,26 @@ namespace HospitalManagement.Controllers
                 return BadRequest($"Error Occurred {ex.Message}");
             }
         }
+        [HttpGet("PatientsByCategory/{category}")]
+        public IActionResult GetPatientsByCategory(string category)
+        {
+            try
+            {
+                ResponseStatus<Patient> response = new ResponseStatus<Patient>();
+                response = patientRepo.GetRecords();
+                List<Patient> records = new List<Patient>();
+                if (category.Equals("IPD")) {
+                    records = response.Records.Where(pat => pat.IsAdmitted == true).ToList();
+                }
+                else {
+                    records = response.Records.Where(pat => pat.IsAdmitted == false).ToList();
+                }
+                return Ok(records);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error {ex.Message}");
+            }
+        }
     }
 }

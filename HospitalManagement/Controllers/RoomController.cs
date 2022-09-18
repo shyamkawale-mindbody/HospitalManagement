@@ -89,5 +89,22 @@ namespace HospitalManagement.Controllers
                 return BadRequest($"Error Occurred {ex.Message}");
             }
         }
+
+        [HttpGet("RoomsByWard/{id}")]
+        public IActionResult GetRoomsByWard(int id)
+        {
+            try
+            {
+                ResponseStatus<Room> response = new ResponseStatus<Room>();
+                response = roomRepo.GetRecords();
+
+                var records = response.Records.Where(room => room.WardId == id);
+                return Ok(records);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error {ex.Message}");
+            }
+        }
     }
 }
