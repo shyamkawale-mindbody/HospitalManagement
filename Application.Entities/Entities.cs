@@ -25,7 +25,7 @@ namespace Application.Entities
         public string Gender { get; set; }
         public string AgeType { get; set; } //Major or Minor
         public bool IsAdmitted { get; set; }
-        public int? AssignedDoctorId { get; set; }
+        public int? AssignedDoctorId { get; set; } //changes
         public int? BillId { get; set; }
         public int? RoomId { get; set; }
     }
