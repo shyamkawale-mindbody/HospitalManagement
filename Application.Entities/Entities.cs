@@ -32,14 +32,14 @@ namespace Application.Entities
     public class Bill: Entity
     {
         public int BillId { get; set; }
-        public decimal? OPD_Fees { get; set; }
-        public decimal? Doctor_Fees { get; set; }
-        public decimal? Other_Fees { get; set; }
-        public decimal? MedicineCharges { get; set; }
-        public decimal? CanteenCharges { get; set; }
-        public decimal? Total_Fees { get; set; }
-        public decimal? RoomCharges { get; set; }
-        public decimal? IPD_Advance_Fees { get; set; }
+        public decimal? OPD_Fees { get; set; } = null;
+        public decimal? Doctor_Fees { get; set; } = null;
+        public decimal? Other_Fees { get; set; } = null;
+        public decimal? MedicineCharges { get; set; } = null;
+        public decimal? CanteenCharges { get; set; } = null;
+        public decimal? IPD_Advance_Fees { get; set; } = null;
+        public decimal? RoomCharges { get; set; } = null;
+        public decimal? Total_Fees { get; set; } = null;
     }
     public class Room: Entity
     {
