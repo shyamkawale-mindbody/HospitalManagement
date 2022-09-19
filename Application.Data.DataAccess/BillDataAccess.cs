@@ -36,7 +36,7 @@ namespace Application.Data.DataAccess
                 entity.Total_Fees = OPDFees + Doctor_Fees + Other_Fees + MedicineCharges + CanteenCharges + IPD_Advance_Fees + RoomCharges;
 
                 //Cmd.CommandText = $"Insert into Bill Values ({entity.BillId}, {entity.OPD_Fees}, {entity.Doctor_Fees}, {entity.Other_Fees}, {entity.MedicineCharges}, {entity.CanteenCharges}, {entity.IPD_Advance_Fees}, {entity.RoomCharges},{entity.Total_Fees})";
-                Cmd = new SqlCommand("INSERT INTO Bill VALUES (@BillId , @OPD_Fees , @Doctor_Fees , @Other_Fees , @MedicineCharges , @CanteenCharges , @IPD_Advance_Fees , @RoomCharges , @Total_Fees )", Conn);
+                Cmd = new SqlCommand("INSERT INTO Bill VALUES (@BillId , @OPD_Fees , @Doctor_Fees , @Other_Fees , @Total_Fees , @MedicineCharges , @CanteenCharges , @RoomCharges , @IPD_Advance_Fees )", Conn);
                 Cmd.Parameters.Add(new SqlParameter("@BillId", entity.BillId));
                 Cmd.Parameters.Add(new SqlParameter("@OPD_Fees", entity.OPD_Fees == null ? DBNull.Value : entity.OPD_Fees));
                 Cmd.Parameters.Add(new SqlParameter("@Doctor_Fees", entity.Doctor_Fees == null ? DBNull.Value : entity.Doctor_Fees));

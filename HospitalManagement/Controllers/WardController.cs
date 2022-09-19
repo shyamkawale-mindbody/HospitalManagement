@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace HospitalManagement.Controllers
 {
     [Route("api/[controller]")]
-    //[ApiController]
+    [ApiController]
     public class WardController : ControllerBase
     {
         private readonly IServiceRepository<Ward, int> wardRepo;
