@@ -110,5 +110,39 @@ namespace HospitalManagement.Controllers
                 return BadRequest($"Error {ex.Message}");
             }
         }
+        [HttpGet("PatientByDoctorId/{id}")]
+        public IActionResult GetPatientByDoctorId(int id)
+        {
+            try
+            {
+                ResponseStatus<Patient> response = new ResponseStatus<Patient>();
+                response = patientRepo.GetRecords();
+                List<Patient> records = new List<Patient>();
+                records = response.Records.Where(pat => pat.AssignedDoctorId == id).ToList();
+                
+                return Ok(records);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error {ex.Message}");
+            }
+        }
+        [HttpGet("PatientByRoomId/{id}")]
+        public IActionResult GetPatientByWardId(int id)
+        {
+            try
+            {
+                ResponseStatus<Patient> response = new ResponseStatus<Patient>();
+                response = patientRepo.GetRecords();
+                List<Patient> records = new List<Patient>();
+                records = response.Records.Where(pat => pat.RoomId == id).ToList();
+
+                return Ok(records);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error {ex.Message}");
+            }
+        }
     }
 }

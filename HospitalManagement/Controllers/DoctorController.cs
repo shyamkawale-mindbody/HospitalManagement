@@ -26,6 +26,36 @@ namespace HospitalManagement.Controllers
                 return BadRequest($"Error {ex.Message}");
             }
         }
+        [HttpGet("DoctorBySpec/{spec}")]
+        public IActionResult GetDoctorBySpec(string spec)
+        {
+            try
+            {
+                ResponseStatus<Doctor> response = new ResponseStatus<Doctor>();
+                response = doctorRepo.GetRecords();
+                var record = response.Records.Where(doc => doc.Specialization.Equals(spec));
+                return Ok(record);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error {ex.Message}");
+            }
+        }
+        [HttpGet("DoctorByType/{type}")]
+        public IActionResult GetDoctorByType(string type)
+        {
+            try
+            {
+                ResponseStatus<Doctor> response = new ResponseStatus<Doctor>();
+                response = doctorRepo.GetRecords();
+                var record = response.Records.Where(doc => doc.Type.Equals(type));
+                return Ok(record);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error {ex.Message}");
+            }
+        }
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
