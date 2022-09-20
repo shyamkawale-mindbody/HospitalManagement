@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Application.Entities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HospitalManagement.Controllers
@@ -20,6 +21,21 @@ namespace HospitalManagement.Controllers
                 ResponseStatus<CanteenBill> response = new ResponseStatus<CanteenBill>();
                 response = canteenBillRepo.GetRecords();
                 return Ok(response.Records);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error {ex.Message}");
+            }
+        }
+        [HttpGet("CanteenBillsByBillId/{id}")]
+        public IActionResult GetCanteenBillsByBillId(int id)
+        {
+            try
+            {
+                ResponseStatus<CanteenBill> response = new ResponseStatus<CanteenBill>();
+                response = canteenBillRepo.GetRecords();
+                var records = response.Records.Where(bill => bill.BillId == id).ToList();
+                return Ok(records);
             }
             catch (Exception ex)
             {
@@ -82,6 +98,28 @@ namespace HospitalManagement.Controllers
             try
             {
                 response = canteenBillRepo.DeleteRecord(id);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error Occurred {ex.Message}");
+            }
+        }
+        [HttpDelete("DeleteCanteenBillsByBillId/{id}")]
+        public IActionResult DeleteCanteenBillsByBillId(int id)
+        {
+            ResponseStatus<CanteenBill> response = new ResponseStatus<CanteenBill>();
+            try
+            {
+                var canteenBillsResponse = canteenBillRepo.GetRecords();
+                var canteenBillsList = canteenBillsResponse.Records.ToList();
+                for (int i = 0; i < canteenBillsList.Count(); i++)
+                {
+                    if (canteenBillsList[i].BillId == id)
+                    {
+                        response = canteenBillRepo.DeleteRecord(canteenBillsList[i].CanteenBillId);
+                    }
+                }
                 return Ok(response);
             }
             catch (Exception ex)

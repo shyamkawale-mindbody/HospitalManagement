@@ -26,6 +26,21 @@ namespace HospitalManagement.Controllers
                 return BadRequest($"Error {ex.Message}");
             }
         }
+        [HttpGet("MedicineBillsByBillId/{id}")]
+        public IActionResult GetMedicineBillsByBillId(int id)
+        {
+            try
+            {
+                ResponseStatus<MedicineBill> response = new ResponseStatus<MedicineBill>();
+                response = medicineBillRepo.GetRecords();
+                var records = response.Records.Where(bill => bill.BillId == id).ToList();
+                return Ok(records);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error {ex.Message}");
+            }
+        }
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
@@ -82,6 +97,28 @@ namespace HospitalManagement.Controllers
             try
             {
                 response = medicineBillRepo.DeleteRecord(id);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error Occurred {ex.Message}");
+            }
+        }
+        [HttpDelete("DeleteMedicineBillsByBillId/{id}")]
+        public IActionResult DeleteMedicineBillsByBillId(int id)
+        {
+            ResponseStatus<MedicineBill> response = new ResponseStatus<MedicineBill>();
+            try
+            {
+                var medicineBillsResponse = medicineBillRepo.GetRecords();
+                var medicineBillsList = medicineBillsResponse.Records.ToList();
+                for (int i = 0; i < medicineBillsList.Count(); i++)
+                {
+                    if (medicineBillsList[i].BillId == id)
+                    {
+                        response = medicineBillRepo.DeleteRecord(medicineBillsList[i].MedicineBillId);
+                    }
+                }
                 return Ok(response);
             }
             catch (Exception ex)
