@@ -1,3 +1,8 @@
+HOSPITAL MANAGEMENT SYSTEM
+
+
+--we have added database queries in DatabaseQueries.sql file
+
 Based on the Topics we have discussed, not its time for use to implement all the topics in a Mini Project based on the Following Statement
 
 1. You are a developer working with ABC Software System, and the company is in the Software Services. You are approached by MS-Healthcare which owns a chain oh hospital across country. The MS-Healthcare wants you to implement a software process automation to transform their Mannual Work into an Automated process based on the Following workflow:
