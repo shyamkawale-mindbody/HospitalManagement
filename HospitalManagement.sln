@@ -7,16 +7,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HospitalManagement", "Hospi
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{268245AC-6C81-4CC8-BCED-294F9DD9C094}"
 	ProjectSection(SolutionItems) = preProject
+		DatabaseQueries.sql = DatabaseQueries.sql
 		readme.md = readme.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Dal.Contract", "Application.Dal.Contract\Application.Dal.Contract.csproj", "{808B9EC8-376E-4F0B-8953-2A590AA6A9E3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application.Dal.Contract", "Application.Dal.Contract\Application.Dal.Contract.csproj", "{808B9EC8-376E-4F0B-8953-2A590AA6A9E3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Entities", "Application.Entities\Application.Entities.csproj", "{82826839-A386-42D0-A70B-6B07605CBB21}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application.Entities", "Application.Entities\Application.Entities.csproj", "{82826839-A386-42D0-A70B-6B07605CBB21}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Entities.Base", "Application.BaseEntity\Application.Entities.Base.csproj", "{EB777141-1553-4722-8A77-35789A31929E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application.Entities.Base", "Application.BaseEntity\Application.Entities.Base.csproj", "{EB777141-1553-4722-8A77-35789A31929E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Data.DataAccess", "Application.Data.DataAccess\Application.Data.DataAccess.csproj", "{0C74AA61-B090-4D1F-BA0E-D4CE2805D488}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application.Data.DataAccess", "Application.Data.DataAccess\Application.Data.DataAccess.csproj", "{0C74AA61-B090-4D1F-BA0E-D4CE2805D488}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
